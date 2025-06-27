@@ -54,7 +54,22 @@ public class EventTriggers {
         String message = chatMessage.getMessage();
         ChatMessageType type = chatMessage.getType();
 
-        // Only process game messages and spam messages
+        // Handle test commands first - listen to multiple chat types for testing
+        if (message.startsWith("!test") && 
+            (type == ChatMessageType.PUBLICCHAT || 
+             type == ChatMessageType.PRIVATECHAT ||
+             type == ChatMessageType.PRIVATECHATOUT ||
+             type == ChatMessageType.MODCHAT ||
+             type == ChatMessageType.FRIENDSCHAT ||
+             type == ChatMessageType.CLAN_CHAT ||
+             type == ChatMessageType.CLAN_GUEST_CHAT ||
+             type == ChatMessageType.GAMEMESSAGE)) {
+            
+            handleTestCommand(message);
+            return;
+        }
+
+        // Only process game messages and spam messages for actual events
         if (type != ChatMessageType.GAMEMESSAGE && type != ChatMessageType.SPAM) {
             return;
         }
@@ -172,6 +187,66 @@ public class EventTriggers {
             return String.format("%.1fK", value / 1_000.0);
         } else {
             return String.valueOf(value);
+        }
+    }
+
+    private void handleTestCommand(String message) {
+        log.info("Test command detected: '{}'", message);
+        String[] parts = message.split(" ");
+        if (parts.length < 2) {
+            log.info("Usage: !test <event_type>");
+            log.info("Available events: collection_log, pet_drop, rare_drop, superior_spawn, achievement_diary, combat_diary, level_up, quest_complete");
+            return;
+        }
+
+        String eventType = parts[1].toLowerCase();
+        SoundType soundToPlay = null;
+
+        // Map command strings to sound types
+        switch (eventType) {
+            case "collection_log":
+                soundToPlay = SoundType.randomCollectionLog();
+                break;
+            case "pet_drop":
+                soundToPlay = SoundType.randomPetDrop();
+                break;
+            case "rare_drop":
+                soundToPlay = SoundType.randomRareDrop();
+                break;
+            case "superior_spawn":
+                soundToPlay = SoundType.randomSuperiorSpawn();
+                break;
+            case "achievement_diary":
+                soundToPlay = SoundType.randomAchievementDiary();
+                break;
+            case "combat_diary":
+                soundToPlay = SoundType.randomCombatDiary();
+                break;
+            case "level_up":
+                soundToPlay = SoundType.randomLevelUp();
+                break;
+            case "quest_complete":
+                soundToPlay = SoundType.randomQuestComplete();
+                break;
+            default:
+                log.info("Unknown event type: '{}'. Available: collection_log, pet_drop, rare_drop, superior_spawn, achievement_diary, combat_diary, level_up, quest_complete", eventType);
+                return;
+        }
+
+        log.info("Playing test sound for {}: {}", eventType, soundToPlay.getFileName());
+        
+        // Play a system beep first to verify audio system is working
+        playSystemBeep();
+        
+        // Play the actual sound
+        playEventSound(soundToPlay, "Test", "Test sound for " + eventType + "!");
+    }
+
+    private void playSystemBeep() {
+        try {
+            java.awt.Toolkit.getDefaultToolkit().beep();
+        } catch (Exception e) {
+            log.error("Error playing system beep", e);
         }
     }
 }

@@ -44,6 +44,34 @@ StatusQuoSounds is a RuneLite plugin that plays custom sounds for various in-gam
 - **Show chat notifications** - Display fake chat messages for events (default: off)
 - **Sound volume** - Volume control from 0-200% (default: 100%)
 
+## Testing Sounds
+
+You can test any event sound using chat commands:
+
+### Chat Commands
+- `!test <event_type>` - Play a test sound for the specified event
+
+#### Available Event Types
+- `collection_log` - Test collection log entry sound
+- `pet_drop` - Test pet drop sound  
+- `rare_drop` - Test rare drop sound
+- `superior_spawn` - Test superior slayer spawn sound
+- `achievement_diary` - Test achievement diary completion sound
+- `combat_diary` - Test combat achievement sound
+- `level_up` - Test level up sound
+- `quest_complete` - Test quest completion sound
+
+#### Examples
+- `!test level_up` - Play a random level up sound
+- `!test pet_drop` - Play a random pet drop sound
+- `!test rare_drop` - Play a random rare drop sound
+
+### Notes
+- Commands work in any chat (public, private, friends, clan)
+- A system beep plays first to verify audio is working
+- Test commands will show a chat notification if that setting is enabled
+- Commands are logged for debugging
+
 ## Customizing Sounds
 
 ### Sound File Location
