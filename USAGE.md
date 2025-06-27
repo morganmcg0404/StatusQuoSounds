@@ -68,6 +68,7 @@ You can test any event sound using chat commands:
 
 ### Notes
 - Commands work in any chat (public, private, friends, clan)
+- Commands are case-insensitive (`!test` or `!Test` both work)
 - A system beep plays first to verify audio is working
 - Test commands will show a chat notification if that setting is enabled
 - Commands are logged for debugging

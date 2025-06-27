@@ -51,7 +51,7 @@ public class EventTriggers {
         ChatMessageType type = chatMessage.getType();
 
         // Handle test commands first - listen to multiple chat types for testing
-        if (message.startsWith("!test") && 
+        if (message.toLowerCase().startsWith("!test") && 
             (type == ChatMessageType.PUBLICCHAT || 
              type == ChatMessageType.PRIVATECHAT ||
              type == ChatMessageType.PRIVATECHATOUT ||
