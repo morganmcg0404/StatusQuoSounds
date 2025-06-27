@@ -40,16 +40,25 @@ Each event type can be individually enabled/disabled:
   - Based on Grand Exchange prices
   - Only items worth more than this value will trigger the sound
 
-### Sound Testing
-**NEW**: Test buttons for each sound type:
-- **Test Collection Log Sound**: Click to hear collection log sound
-- **Test Pet Drop Sound**: Click to hear pet drop sound
-- **Test Rare Drop Sound**: Click to hear rare drop sound
-- **Test Superior Spawn Sound**: Click to hear superior spawn sound
-- **Test Achievement Diary Sound**: Click to hear achievement diary sound
-- **Test Combat Diary Sound**: Click to hear combat diary sound
+## Testing Your Sounds
 
-*Note: Test buttons respect the volume setting and will play a random variant (1-3) each time clicked.*
+### Using Chat Commands
+You can test each sound type by typing commands in public chat:
+
+- `!test collection_log` - Test collection log sound
+- `!test pet_drop` - Test pet drop sound
+- `!test rare_drop` - Test rare drop sound
+- `!test superior_spawn` - Test superior spawn sound
+- `!test achievement_diary` - Test achievement diary sound
+- `!test combat_diary` - Test combat diary sound
+
+*Note: Commands respect your volume setting and will play a random variant (1-3) each time.*
+
+### Manual Testing Tips
+- Set volume to a comfortable level before testing
+- Test all sound types to ensure they're working
+- Verify custom sounds after replacing the default ones
+- Use chat commands to check if your sound files are properly formatted
 
 ## Sound Detection
 
@@ -95,6 +104,14 @@ The plugin detects events through:
 2. Verify volume is above 0
 3. Ensure sound files exist in the correct location
 4. Check that your system audio is working
+5. **Use chat commands to verify sound functionality**
+
+### Chat Commands Not Working
+1. Make sure you're typing in public chat (not private message)
+2. Commands must start with `!test` followed by the sound type
+3. Check that volume is above 0
+4. Verify sound files exist in `/sounds/` directory
+5. Ensure sound files are in WAV format
 
 ### Wrong Events Triggering
 - The plugin relies on chat message patterns

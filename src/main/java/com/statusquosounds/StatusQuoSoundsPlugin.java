@@ -14,7 +14,6 @@ import net.runelite.api.events.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -57,44 +56,22 @@ public class StatusQuoSoundsPlugin extends Plugin
 	}
 
 	@Subscribe
-	public void onConfigChanged(ConfigChanged configChanged)
-	{
-		if (!"statusquosounds".equals(configChanged.getGroup()))
-		{
-			return;
-		}
-
-		String key = configChanged.getKey();
-		
-		// Handle test button clicks
-		switch (key)
-		{
-			case "testCollectionLog":
-				playSound("collection_log");
-				break;
-			case "testPetDrop":
-				playSound("pet_drop");
-				break;
-			case "testRareDrop":
-				playSound("rare_drop");
-				break;
-			case "testSuperiorSpawn":
-				playSound("superior_spawn");
-				break;
-			case "testAchievementDiary":
-				playSound("achievement_diary");
-				break;
-			case "testCombatDiary":
-				playSound("combat_diary");
-				break;
-		}
-	}
-
-	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage)
 	{
 		String message = chatMessage.getMessage();
 		ChatMessageType type = chatMessage.getType();
+
+		// Test commands for manual sound testing
+		if (type == ChatMessageType.PUBLICCHAT && message.startsWith("!test"))
+		{
+			String[] parts = message.split(" ");
+			if (parts.length > 1)
+			{
+				String soundType = parts[1];
+				playSound(soundType);
+				return;
+			}
+		}
 
 		// Collection log entries
 		if (config.collectionLogSounds() && 

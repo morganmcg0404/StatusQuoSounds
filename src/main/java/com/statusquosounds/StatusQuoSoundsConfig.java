@@ -30,13 +30,6 @@ public interface StatusQuoSoundsConfig extends Config
 	)
 	String dropSettings = "dropSettings";
 
-	@ConfigSection(
-		name = "Sound Testing",
-		description = "Test each sound type",
-		position = 3
-	)
-	String soundTesting = "soundTesting";
-
 	@ConfigItem(
 		keyName = "volume",
 		name = "Volume",
@@ -132,72 +125,5 @@ public interface StatusQuoSoundsConfig extends Config
 	default int rareDropValue()
 	{
 		return 1000000; // 1M GP default
-	}
-
-	// Test buttons
-	@ConfigItem(
-		keyName = "testCollectionLog",
-		name = "Test Collection Log Sound",
-		description = "Click to test collection log sound",
-		section = soundTesting,
-		position = 1
-	)
-	default void testCollectionLog()
-	{
-	}
-
-	@ConfigItem(
-		keyName = "testPetDrop",
-		name = "Test Pet Drop Sound",
-		description = "Click to test pet drop sound",
-		section = soundTesting,
-		position = 2
-	)
-	default void testPetDrop()
-	{
-	}
-
-	@ConfigItem(
-		keyName = "testRareDrop",
-		name = "Test Rare Drop Sound",
-		description = "Click to test rare drop sound",
-		section = soundTesting,
-		position = 3
-	)
-	default void testRareDrop()
-	{
-	}
-
-	@ConfigItem(
-		keyName = "testSuperiorSpawn",
-		name = "Test Superior Spawn Sound",
-		description = "Click to test superior spawn sound",
-		section = soundTesting,
-		position = 4
-	)
-	default void testSuperiorSpawn()
-	{
-	}
-
-	@ConfigItem(
-		keyName = "testAchievementDiary",
-		name = "Test Achievement Diary Sound",
-		description = "Click to test achievement diary sound",
-		section = soundTesting,
-		position = 5
-	)
-	default void testAchievementDiary()
-	{
-	}
-
-	@ConfigItem(
-		keyName = "testCombatDiary",
-		name = "Test Combat Diary Sound",
-		description = "Click to test combat diary sound",
-		section = soundTesting,
-		position = 6
-	)
-	default void testCombatDiary()
-	{
 	}
 }
