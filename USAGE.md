@@ -22,7 +22,7 @@ StatusQuoSounds is a RuneLite plugin that plays custom sounds for various in-gam
 
 ### Drop Sounds
 - **Pet drops**: Plays when receiving pet drops
-- **Rare drops**: Plays when receiving valuable items (configurable threshold)
+- **Rare drops**: Plays when receiving valuable or untradeable drops (detected from game messages)
 - **Superior spawns**: Plays when superior slayer monsters spawn
 
 ## Configuration Options
@@ -36,9 +36,9 @@ StatusQuoSounds is a RuneLite plugin that plays custom sounds for various in-gam
 
 ### Drop Sounds Section  
 - **Pet drops** - Toggle for pet drop sounds
-- **Rare drops** - Toggle for valuable item drops
+- **Rare drops** - Toggle for valuable/untradeable drops (detected from chat messages)
 - **Superior slayer spawns** - Toggle for superior monster spawns
-- **Rare drop value threshold** - Minimum GP value for rare drop sounds (default: 1M GP)
+- **Rare drop value threshold** - Currently unused (detection based on game messages)
 
 ### General Settings
 - **Show chat notifications** - Display fake chat messages for events (default: off)
@@ -151,11 +151,10 @@ When enabled, the plugin shows fake public chat messages that only you can see:
 ## Event Detection
 
 The plugin detects events by monitoring:
-- **Chat messages**: For most events (level ups, quests, collection log, etc.)
-- **Inventory changes**: For rare drops (monitors item values)
-- **Game state**: For various achievement completions
+- **Chat messages**: For all events including level ups, quests, collection log, rare drops, etc.
+- **Game messages**: Specifically looks for "Valuable drop:" and "Untradeable drop:" messages
 
-Some events require specific in-game settings to generate detectable messages.
+All detection is now chat-based for consistency and accuracy. Some events require specific in-game settings to generate detectable messages.
 
 ## Performance
 

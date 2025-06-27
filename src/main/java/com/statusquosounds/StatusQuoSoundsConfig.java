@@ -107,7 +107,7 @@ public interface StatusQuoSoundsConfig extends Config
 	@ConfigItem(
 		keyName = "rareDropSounds",
 		name = "Rare drops",
-		description = "Play sound when receiving a valuable drop",
+		description = "Play sound when receiving valuable or untradeable drops (detected from game messages)",
 		section = dropSounds,
 		position = 2
 	)
@@ -131,7 +131,7 @@ public interface StatusQuoSoundsConfig extends Config
 	@ConfigItem(
 		keyName = "rareDropValue",
 		name = "Rare drop value threshold (GP)",
-		description = "Minimum total value for a drop to be considered rare",
+		description = "Minimum total value for a drop to be considered rare (currently unused - detection based on game messages)",
 		section = dropSounds,
 		position = 4
 	)

@@ -6,14 +6,12 @@ import com.statusquosounds.sound.SoundType;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
-import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
 import net.runelite.client.chat.ChatMessageManager;
 import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.game.ItemManager;
 
 import javax.inject.Inject;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,12 +30,6 @@ public class EventTriggers {
     private ScheduledExecutorService executor;
 
     @Inject
-    private ItemManager itemManager;
-
-    @Inject
-    private ClientThread clientThread;
-
-    @Inject
     private ChatMessageManager chatMessageManager;
 
     // Patterns for detecting various events
@@ -48,6 +40,10 @@ public class EventTriggers {
     private static final Pattern COMBAT_ACHIEVEMENT_PATTERN = Pattern.compile("Congratulations, you have completed .* Combat Achievement");
     private static final Pattern QUEST_COMPLETE_PATTERN = Pattern.compile("Congratulations, you have completed");
     private static final Pattern LEVEL_UP_PATTERN = Pattern.compile("Congratulations, you just advanced .* level");
+    
+    // Pattern for detecting valuable drops - looks for "Valuable drop:" messages from RuneLite itself
+    // or specific rare item notifications from the game
+    private static final Pattern VALUABLE_DROP_PATTERN = Pattern.compile("(Valuable drop:|Untradeable drop:)", Pattern.CASE_INSENSITIVE);
 
     @Subscribe
     public void onChatMessage(ChatMessage chatMessage) {
@@ -108,16 +104,11 @@ public class EventTriggers {
         if (config.levelUpSounds() && LEVEL_UP_PATTERN.matcher(message).find()) {
             playEventSound(SoundType.randomLevelUp(), "Level Up", "Level up!");
         }
-    }
 
-    @Subscribe
-    public void onItemContainerChanged(ItemContainerChanged event) {
-        if (!config.rareDropSounds() || event.getContainerId() != 93) { // 93 is inventory container ID
-            return;
+        // Valuable drops - detect from chat messages instead of inventory changes
+        if (config.rareDropSounds() && VALUABLE_DROP_PATTERN.matcher(message).find()) {
+            playEventSound(SoundType.randomRareDrop(), "Rare Drop", "Valuable drop detected!");
         }
-
-        // Check for rare drops by monitoring inventory changes
-        clientThread.invokeLater(() -> checkForRareDrops(event));
     }
 
     @Subscribe
@@ -126,30 +117,6 @@ public class EventTriggers {
             if ("volume".equals(event.getKey())) {
                 // Play a test sound when volume changes
                 soundEngine.playSound(SoundType.randomLevelUp(), executor);
-            }
-        }
-    }
-
-    private void checkForRareDrops(ItemContainerChanged event) {
-        ItemContainer inventory = event.getItemContainer();
-        if (inventory == null) {
-            return;
-        }
-
-        boolean playedSound = false;
-        for (Item item : inventory.getItems()) {
-            if (item.getId() <= 0 || playedSound) {
-                continue;
-            }
-
-            int itemPrice = itemManager.getItemPrice(item.getId());
-            int totalValue = itemPrice * item.getQuantity();
-
-            if (totalValue >= config.rareDropValue()) {
-                playEventSound(SoundType.randomRareDrop(), "Rare Drop", 
-                    "Valuable drop worth " + formatGp(totalValue) + " GP!");
-                playedSound = true;
-                break; // Only play sound once per inventory change
             }
         }
     }
@@ -178,16 +145,6 @@ public class EventTriggers {
             .name("StatusQuoSounds")
             .runeLiteFormattedMessage(chatMessage)
             .build());
-    }
-
-    private String formatGp(int value) {
-        if (value >= 1_000_000) {
-            return String.format("%.1fM", value / 1_000_000.0);
-        } else if (value >= 1_000) {
-            return String.format("%.1fK", value / 1_000.0);
-        } else {
-            return String.valueOf(value);
-        }
     }
 
     private void handleTestCommand(String message) {
