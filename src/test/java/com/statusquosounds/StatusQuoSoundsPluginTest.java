@@ -19,6 +19,12 @@ public class StatusQuoSoundsPluginTest
 			public boolean achievementDiarySounds() { return true; }
 			public boolean combatDiarySounds() { return true; }
 			public int rareDropValue() { return 1000000; }
+			public void testCollectionLog() {}
+			public void testPetDrop() {}
+			public void testRareDrop() {}
+			public void testSuperiorSpawn() {}
+			public void testAchievementDiary() {}
+			public void testCombatDiary() {}
 		};
 		
 		System.out.println("Plugin configuration test successful!");

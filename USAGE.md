@@ -40,6 +40,17 @@ Each event type can be individually enabled/disabled:
   - Based on Grand Exchange prices
   - Only items worth more than this value will trigger the sound
 
+### Sound Testing
+**NEW**: Test buttons for each sound type:
+- **Test Collection Log Sound**: Click to hear collection log sound
+- **Test Pet Drop Sound**: Click to hear pet drop sound
+- **Test Rare Drop Sound**: Click to hear rare drop sound
+- **Test Superior Spawn Sound**: Click to hear superior spawn sound
+- **Test Achievement Diary Sound**: Click to hear achievement diary sound
+- **Test Combat Diary Sound**: Click to hear combat diary sound
+
+*Note: Test buttons respect the volume setting and will play a random variant (1-3) each time clicked.*
+
 ## Sound Detection
 
 The plugin detects events through:
